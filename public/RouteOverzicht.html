@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Routes Overzicht - Tourguide App</title>
+    <!-- Ontwerpkeuze: Tailwind CSS voor snelle, utility-first styling. Dit maakt het eenvoudig om responsieve en consistente ontwerpen te bouwen zonder de HTML te verlaten. -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Ontwerpkeuze: Het 'Inter' lettertype is gekozen vanwege zijn uitstekende leesbaarheid op schermen en zijn moderne, neutrale uitstraling. -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Ontwerpkeuze: Lucide Icons worden gebruikt voor een strakke, consistente en lichtgewicht iconenset die de gebruikersinterface verduidelijkt. -->
+    <script src="https://unpkg.com/lucide-react@latest"></script>
+    <style>
+        /* Ontwerpkeuze: Een aangepast lettertype en achtergrondkleur worden hier gedefinieerd om de basisstijl van de app consistent te houden. */
+        body {
+            font-family: 'Inter', sans-serif; /* Gebruik Inter als standaard lettertype */
+            background-color: #f0f4f8; /* Zachte achtergrondkleur voor een rustige uitstraling */
+            color: #334155; /* Donkergrijze tekst voor optimale leesbaarheid */
+        }
+        .container {
+            max-width: 1200px; /* Maximale breedte voor de inhoud op grote schermen */
+            margin: auto; /* Centreert de content voor een gebalanceerde layout */
+        }
+        /* Aangepaste stijl voor iconen voor consistentie */
+        .icon {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            stroke-width: 2;
+            stroke: currentColor;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-6 lg:p-8">
+
+    <!-- Ontwerpkeuze: De header bevat de titel van de app en de hoofdnavigatie. De schaduw en afgeronde hoeken zorgen voor een moderne, 'zwevende' look. -->
+    <header class="bg-white shadow-md rounded-xl p-4 mb-8 flex justify-between items-center">
+        <h1 class="text-2xl font-bold text-indigo-700">Tourguide App</h1>
+        <nav>
+            <ul class="flex space-x-4">
+                <li><a href="RouteOverzicht.html" class="text-indigo-700 font-bold">Routes</a></li>
+                <li><a href="MijnToures.html" class="text-gray-600 hover:text-indigo-700 font-medium">Mijn Tours</a></li>
+                <li><a href="InlogPagina.html" class="text-gray-600 hover:text-indigo-700 font-medium">Profiel</a></li>
+                <!-- Inloggen/Registreren knop - Optioneel voor niet-ingelogde gebruikers -->
+                <li><a href="InlogPagina.html" class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition duration-300">Inloggen</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Ontwerpkeuze: Een zoekbalk en filters bovenaan de pagina stellen gebruikers in staat om snel en efficiënt de routes te vinden die voor hen relevant zijn. -->
+    <section class="container bg-white shadow-lg rounded-xl p-6 mb-8">
+        <h2 class="text-3xl font-bold text-gray-800 mb-6">Ontdek Routes</h2>
+        <p class="text-gray-600 mb-6">Kies een route en ga op avontuur in jouw omgeving!</p>
+
+        <!-- Zoekbalk en filters - Voor het gemakkelijk vinden van routes -->
+        <div class="flex flex-col sm:flex-row gap-4 mb-6">
+            <input type="text" placeholder="Zoek routes..." class="flex-grow p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            <select class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                <option>Alle Categorieën</option>
+                <option>Historisch</option>
+                <option>Natuur</option>
+                <option>Kunst</option>
+                <option>Lokaal Verhaal</option>
+            </select>
+            <button class="bg-indigo-500 text-white px-5 py-3 rounded-lg hover:bg-indigo-600 transition duration-300">Zoeken</button>
+        </div>
+
+        <!-- Lijst met routekaarten - Visuele weergave van beschikbare routes -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Voorbeeld Routekaart 1 -->
+            <div class="bg-gray-50 rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-300">
+                <img src="https://placehold.co/400x250/cbd5e1/475569?text=Historische+Route" alt="Historische Route" class="w-full h-48 object-cover">
+                <div class="p-5">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Historische Stadswandeling</h3>
+                    <p class="text-gray-600 text-sm mb-3">Ontdek de rijke geschiedenis van de stad met deze boeiende wandeling.</p>
+                    <div class="flex items-center text-yellow-500 mb-3">
+                        <!-- Sterren voor beoordeling -->
+                        <span class="icon" data-lucide="star"></span>
+                        <span class="icon" data-lucide="star"></span>
+                        <span class="icon" data-lucide="star"></span>
+                        <span class="icon" data-lucide="star"></span>
+                        <span class="icon" data-lucide="star-half"></span>
+                        <span class="text-gray-500 ml-2 text-sm">(4.5)</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-indigo-600 font-medium">5 km</span>
+                        <a href="RouteDetails.html" class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition duration-300">Bekijk Route</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Voorbeeld Routekaart 2 -->
+            <div class="bg-gray-50 rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-300">
+                <img src="https://placehold.co/400x250/cbd5e1/475569?text=Natuurpad+Park" alt="Natuurpad Park" class="w-full h-48 object-cover">
+                <div class="p-5">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Natuurpad door het Park</h3>
+                    <p class="text-gray-600 text-sm mb-3">Geniet van de rust en schoonheid van de natuur in dit prachtige park.</p>
+                    <div class="flex items-center text-yellow-500 mb-3">
+                        <span class="icon" data-lucide="star"></span>
+                        <span class="icon" data-lucide="star"></span>
+                        <span class="icon" data-lucide="star"></span>
+                        <span class="icon" data-lucide="star"></span>
+                        <span class="text-gray-500 ml-2 text-sm">(4.0)</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-indigo-600 font-medium">3 km</span>
+                        <a href="RouteDetails.html" class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition duration-300">Bekijk Route</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Voorbeeld Routekaart 3 -->
+            <div class="bg-gray-50 rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-300">
+                <img src="https://placehold.co/400x250/cbd5e1/475569?text=Kunstroute+Centrum" alt="Kunstroute Centrum" class="w-full h-48 object-cover">
+                <div class="p-5">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Kunstroute in het Centrum</h3>
+                    <p class="text-gray-600 text-sm mb-3">Verken de stad door de ogen van lokale kunstenaars en hun werken.</p>
+                    <div class="flex items-center text-yellow-500 mb-3">
+                        <span class="icon" data-lucide="star"></span>
+                        <span class="icon" data-lucide="star"></span>
+                        <span class="icon" data-lucide="star"></span>
+                        <span class="icon" data-lucide="star-half"></span>
+                        <span class="text-gray-500 ml-2 text-sm">(3.5)</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-indigo-600 font-medium">4 km</span>
+                        <a href="RouteDetails.html" class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition duration-300">Bekijk Route</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="text-center text-gray-500 text-sm mt-8 pb-4">
+        &copy; 2025 Tourguide App. Alle rechten voorbehouden.
+    </footer>
+
+    <script>
+        // Initialiseer Lucide iconen na het laden van de pagina
+        document.addEventListener('DOMContentLoaded', function() {
+            lucide.createIcons();
+        });
+    </script>
+</body>
+</html>

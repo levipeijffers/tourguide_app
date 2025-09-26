@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profiel / Inloggen - Tourguide App</title>
+    <!-- Ontwerpkeuze: Tailwind CSS voor snelle, utility-first styling. Dit maakt het eenvoudig om responsieve en consistente ontwerpen te bouwen zonder de HTML te verlaten. -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Ontwerpkeuze: Het 'Inter' lettertype is gekozen vanwege zijn uitstekende leesbaarheid op schermen en zijn moderne, neutrale uitstraling. -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Ontwerpkeuze: Lucide Icons worden gebruikt voor een strakke, consistente en lichtgewicht iconenset die de gebruikersinterface verduidelijkt. -->
+    <script src="https://unpkg.com/lucide-react@latest"></script>
+    <style>
+        /* Ontwerpkeuze: Een aangepast lettertype en achtergrondkleur worden hier gedefinieerd om de basisstijl van de app consistent te houden. */
+        body {
+            font-family: 'Inter', sans-serif; /* Gebruik Inter als standaard lettertype */
+            background-color: #f0f4f8; /* Zachte achtergrondkleur voor een rustige uitstraling */
+            color: #334155; /* Donkergrijze tekst voor optimale leesbaarheid */
+        }
+        .container {
+            max-width: 1200px; /* Maximale breedte voor de inhoud op grote schermen */
+            margin: auto; /* Centreert de content voor een gebalanceerde layout */
+        }
+        /* Aangepaste stijl voor iconen voor consistentie */
+        .icon {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            stroke-width: 2;
+            stroke: currentColor;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-6 lg:p-8">
+
+    <!-- Ontwerpkeuze: De header bevat de titel van de app en de hoofdnavigatie. De schaduw en afgeronde hoeken zorgen voor een moderne, 'zwevende' look. -->
+    <header class="bg-white shadow-md rounded-xl p-4 mb-8 flex justify-between items-center">
+        <h1 class="text-2xl font-bold text-indigo-700">Tourguide App</h1>
+        <nav>
+            <ul class="flex space-x-4">
+                <li><a href="RouteOverzicht.html" class="text-gray-600 hover:text-indigo-700 font-medium">Routes</a></li>
+                <li><a href="MijnToures.html" class="text-gray-600 hover:text-indigo-700 font-medium">Mijn Tours</a></li>
+                <li><a href="InlogPagina.html" class="text-indigo-700 font-bold">Profiel</a></li>
+                <!-- Inloggen/Registreren knop -->
+                <li><a href="InlogPagina.html" class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition duration-300">Inloggen</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Ontwerpkeuze: De inlog- en registratieformulieren zijn naast elkaar geplaatst in een grid-layout voor een duidelijke scheiding en efficiënt gebruik van de ruimte. -->
+    <section class="container bg-white shadow-lg rounded-xl p-6 mb-8">
+        <h2 class="text-3xl font-bold text-gray-800 mb-6">Profiel en Inloggen</h2>
+        <p class="text-gray-600 mb-6">Log in om toegang te krijgen tot extra functies, zoals je gelopen routes en persoonlijke feedback.</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- Inlogformulier -->
+            <div class="bg-gray-50 p-6 rounded-xl shadow-md">
+                <h3 class="text-2xl font-semibold text-gray-800 mb-4">Inloggen</h3>
+                <form>
+                    <div class="mb-4">
+                        <label for="email" class="block text-gray-700 text-sm font-bold mb-2">E-mailadres:</label>
+                        <input type="email" id="email" name="email" placeholder="jouw@email.com" class="shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    </div>
+                    <div class="mb-6">
+                        <label for="password" class="block text-gray-700 text-sm font-bold mb-2">Wachtwoord:</label>
+                        <input type="password" id="password" name="password" placeholder="********" class="shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 mb-3 leading-tight focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        <a href="#" class="inline-block align-baseline font-bold text-sm text-indigo-600 hover:text-indigo-800">Wachtwoord vergeten?</a>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <button type="submit" class="bg-indigo-600 text-white px-6 py-3 rounded-lg hover:bg-indigo-700 transition duration-300">Log In</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Registratie / Extra functies uitleg -->
+            <div class="bg-gray-50 p-6 rounded-xl shadow-md">
+                <h3 class="text-2xl font-semibold text-gray-800 mb-4">Nog geen account?</h3>
+                <p class="text-gray-700 mb-4">Maak een gratis account aan en krijg toegang tot:</p>
+                <ul class="list-disc list-inside text-gray-600 mb-6 space-y-2">
+                    <li><span class="font-medium text-gray-800">Overzicht van gelopen routes</span></li>
+                    <li><span class="font-medium text-gray-800">Mogelijkheid om ervaringen bij te houden</span></li>
+                    <li><span class="font-medium text-gray-800">Beoordelen van routes</span></li>
+                    <li><span class="font-medium text-gray-800">Gepersonaliseerde aanbevelingen (toekomstige functie)</span></li>
+                </ul>
+                <button class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition duration-300">Account Aanmaken</button>
+            </div>
+        </div>
+    </section>
+
+    <footer class="text-center text-gray-500 text-sm mt-8 pb-4">
+        &copy; 2025 Tourguide App. Alle rechten voorbehouden.
+    </footer>
+
+    <script>
+        // Initialiseer Lucide iconen na het laden van de pagina
+        document.addEventListener('DOMContentLoaded', function() {
+            lucide.createIcons();
+        });
+    </script>
+</body>
+</html>
