@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <title>Mijn Firebase Messages</title>
+  <style>
+    body { font-family: sans-serif; max-width: 600px; margin: 2rem auto; }
+    input { padding: 0.5rem; width: 70%; }
+    button { padding: 0.5rem; }
+    li { margin-bottom: 0.5rem; }
+  </style>
+</head>
+<body>
+  <h1>Mijn Firebase Messages</h1>
+
+  <form id="messageForm">
+    <input id="messageInput" placeholder="Typ een bericht..." required />
+    <button type="submit">Verstuur</button>
+  </form>
+
+  <ul id="messagesList"></ul>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+    import { getFirestore, collection, addDoc, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+
+    // 🔹 Vervang dit met jouw echte config
+    const firebaseConfig = {
+      apiKey: "JOUW_API_KEY",
+      authDomain: "tourguide-80d0f.firebaseapp.com",
+      projectId: "tourguide-80d0f",
+      storageBucket: "tourguide-80d0f.appspot.com",
+      messagingSenderId: "xxxx",
+      appId: "xxxx"
+    };
+
+    // Init Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const form = document.getElementById("messageForm");
+    const input = document.getElementById("messageInput");
+    const list = document.getElementById("messagesList");
+
+    // Verstuur bericht
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const text = input.value.trim();
+      if (!text) return;
+
+      try {
+        await addDoc(collection(db, "messages"), {
+          text,
+          timestamp: Date.now()
+        });
+        input.value = "";
+        loadMessages(); // herlaad lijst
+      } catch (err) {
+        console.error("❌ Fout bij opslaan:", err);
+        alert("Kon bericht niet opslaan! Check console.");
+      }
+    });
+
+    // Haal berichten op en toon in lijst
+    async function loadMessages() {
+      list.innerHTML = "";
+      try {
+        const q = query(collection(db, "messages"), orderBy("timestamp", "desc"));
+        const snapshot = await getDocs(q);
+        snapshot.forEach(doc => {
+          const li = document.createElement("li");
+          li.textContent = doc.data().text;
+          list.appendChild(li);
+        });
+      } catch (err) {
+        console.error("❌ Fout bij ophalen:", err);
+      }
+    }
+
+    // Eerste keer laden
+    loadMessages();
+  </script>
+</body>
+</html>
