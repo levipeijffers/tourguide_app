@@ -6,7 +6,7 @@
 </head>
 <body>
   <h1>🔥 Firebase Connection Test</h1>
-  <p id="status">Connecting to Firebase...</p>
+  <p id="status">Connecting to Firebase... </p>
 
   <script type="module">
     // Firebase SDKs importeren
@@ -31,10 +31,10 @@
     async function testFirestore() {
       try {
         const snapshot = await getDocs(collection(db, "test"));
-        let output = "✅ Firebase connected. Docs in 'test':<br> nigggggggggggggggggggggggggggggggggggggeeeeeeeeeeeeeeeeeeeeeeeeeeeer";
+        let output = "✅ Firebase connected. Docs in 'test':<br> ";
 
         snapshot.forEach(doc => {
-          output += `${doc.id} => ${JSON.stringify(doc.data())}<br>`;
+          output += `${doc.id} => ${JSON.stringify(doc.data())}<br> hoi hoi`;
           console.log(doc.id, "=>", doc.data());
         });
 
