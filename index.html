@@ -1,0 +1,59 @@
+<h1>Mijn Firebase Messages</h1>
+
+<form id="messageForm">
+  <input id="messageInput" placeholder="Typ een bericht..." />
+  <button type="submit">Verstuur</button>
+</form>
+
+<ul id="messagesList"></ul>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+  import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+
+  // 🔹 Jouw Firebase config
+  const firebaseConfig = {
+    apiKey: "JOUW_API_KEY",
+    authDomain: "jouw-project.firebaseapp.com",
+    projectId: "jouw-project",
+    storageBucket: "jouw-project.appspot.com",
+    messagingSenderId: "xxxx",
+    appId: "xxxx"
+  };
+
+  // 🔹 Firebase init
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  const form = document.getElementById("messageForm");
+  const input = document.getElementById("messageInput");
+  const list = document.getElementById("messagesList");
+
+  // 🔹 Data toevoegen
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (!input.value) return;
+
+    await addDoc(collection(db, "messages"), {
+      text: input.value,
+      timestamp: Date.now()
+    });
+
+    input.value = "";
+    loadMessages();
+  });
+
+  // 🔹 Data ophalen en in lijst zetten
+  async function loadMessages() {
+    list.innerHTML = "";
+    const snapshot = await getDocs(collection(db, "messages"));
+    snapshot.forEach((doc) => {
+      const li = document.createElement("li");
+      li.textContent = doc.data().text;
+      list.appendChild(li);
+    });
+  }
+
+  // eerste keer laden
+  loadMessages();
+</script>
