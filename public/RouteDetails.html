@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Route Detail - Tourguide App</title>
+    <!-- Ontwerpkeuze: Tailwind CSS voor snelle, utility-first styling. Dit maakt het eenvoudig om responsieve en consistente ontwerpen te bouwen zonder de HTML te verlaten. -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Ontwerpkeuze: Het 'Inter' lettertype is gekozen vanwege zijn uitstekende leesbaarheid op schermen en zijn moderne, neutrale uitstraling. -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Ontwerpkeuze: Lucide Icons worden gebruikt voor een strakke, consistente en lichtgewicht iconenset die de gebruikersinterface verduidelijkt. -->
+    <script src="https://unpkg.com/lucide-react@latest"></script>
+    <style>
+        /* Ontwerpkeuze: Een aangepast lettertype en achtergrondkleur worden hier gedefinieerd om de basisstijl van de app consistent te houden. */
+        body {
+            font-family: 'Inter', sans-serif; /* Gebruik Inter als standaard lettertype */
+            background-color: #f0f4f8; /* Zachte achtergrondkleur voor een rustige uitstraling */
+            color: #334155; /* Donkergrijze tekst voor optimale leesbaarheid */
+        }
+        .container {
+            max-width: 1200px; /* Maximale breedte voor de inhoud op grote schermen */
+            margin: auto; /* Centreert de content voor een gebalanceerde layout */
+        }
+        /* Aangepaste stijl voor iconen voor consistentie */
+        .icon {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            stroke-width: 2;
+            stroke: currentColor;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+        /* Ontwerpkeuze: Een placeholder voor de kaart met een neutrale achtergrond en tekst. Dit zorgt voor een duidelijke indicatie van waar de kaart zal verschijnen. */
+        .map-placeholder {
+            background-color: #e2e8f0; /* Lichtgrijze achtergrond */
+            border-radius: 0.75rem; /* Afgeronde hoeken */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #64748b;
+            font-weight: 600;
+        }
+        /* Ontwerpkeuze: Een subtiele 'bounce-in' animatie voor pop-ups om de aandacht van de gebruiker op een prettige manier te trekken. */
+        @keyframes bounce-in {
+            0% { transform: scale(0.5); opacity: 0; }
+            70% { transform: scale(1.05); opacity: 1; }
+            100% { transform: scale(1); }
+        }
+        .animate-bounce-in {
+            animation: bounce-in 0.5s ease-out forwards;
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-6 lg:p-8">
+
+    <!-- Ontwerpkeuze: De header bevat de titel van de app en de hoofdnavigatie. De schaduw en afgeronde hoeken zorgen voor een moderne, 'zwevende' look. -->
+    <header class="bg-white shadow-md rounded-xl p-4 mb-8 flex justify-between items-center">
+        <h1 class="text-2xl font-bold text-indigo-700">Tourguide App</h1>
+        <nav>
+            <ul class="flex space-x-4">
+                <li><a href="RouteOverzicht.html" class="text-gray-600 hover:text-indigo-700 font-medium">Routes</a></li>
+                <li><a href="MijnToures.html" class="text-gray-600 hover:text-indigo-700 font-medium">Mijn Tours</a></li>
+                <li><a href="InlogPagina.html" class="text-gray-600 hover:text-indigo-700 font-medium">Profiel</a></li>
+                <!-- Inloggen/Registreren knop -->
+                <li><a href="InlogPagina.html" class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition duration-300">Inloggen</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Ontwerpkeuze: De layout is opgedeeld in twee kolommen op grotere schermen. Links de kaart en actieknoppen, rechts de punten van interesse. Dit zorgt voor een overzichtelijke en efficiënte weergave van informatie. -->
+    <section class="container bg-white shadow-lg rounded-xl p-6 mb-8">
+        <h2 class="text-3xl font-bold text-gray-800 mb-6">Route: Historische Stadswandeling</h2>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Kaartweergave - Belangrijk voor navigatie -->
+            <div>
+                <div class="map-placeholder w-full h-80 rounded-xl mb-4">
+                    <p>Kaartweergave van de route</p>
+                </div>
+                <p class="text-gray-600 mb-4">Deze route neemt je mee langs de meest iconische historische plekken van de stad, van de oude stadsmuren tot verborgen steegjes.</p>
+                <div class="flex items-center text-yellow-500 mb-4">
+                    <span class="icon" data-lucide="star"></span>
+                    <span class="icon" data-lucide="star"></span>
+                    <span class="icon" data-lucide="star"></span>
+                    <span class="icon" data-lucide="star"></span>
+                    <span class="icon" data-lucide="star-half"></span>
+                    <span class="text-gray-500 ml-2 text-lg">(4.5 sterren, 120 beoordelingen)</span>
+                </div>
+                <div class="flex space-x-4 mb-6">
+                    <button class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition duration-300 flex items-center">
+                        <span class="icon mr-2" data-lucide="play"></span> Start Route
+                    </button>
+                    <button id="shareButton" class="bg-gray-200 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-300 transition duration-300 flex items-center">
+                        <span class="icon mr-2" data-lucide="share2"></span> Delen
+                    </button>
+                </div>
+            </div>
+            <!-- Punten van Interesse (POI's) - Lijst van interessante plekken op de route -->
+            <div>
+                <h3 class="text-2xl font-semibold text-gray-800 mb-4">Punten van Interesse</h3>
+                <ul class="space-y-4">
+                    <li class="bg-gray-50 p-4 rounded-lg shadow-sm flex items-center">
+                        <span class="icon mr-3 text-indigo-500" data-lucide="map-pin"></span>
+                        <div>
+                            <p class="font-medium text-gray-700">Oude Stadsmuur</p>
+                            <p class="text-sm text-gray-500">Monument</p>
+                        </div>
+                    </li>
+                    <li class="bg-gray-50 p-4 rounded-lg shadow-sm flex items-center">
+                        <span class="icon mr-3 text-indigo-500" data-lucide="map-pin"></span>
+                        <div>
+                            <p class="font-medium text-gray-700">Het Verborgen Hofje</p>
+                            <p class="text-sm text-gray-500">Lokaal Verhaal</p>
+                        </div>
+                    </li>
+                    <li class="bg-gray-50 p-4 rounded-lg shadow-sm flex items-center">
+                        <span class="icon mr-3 text-indigo-500" data-lucide="map-pin"></span>
+                        <div>
+                            <p class="font-medium text-gray-700">Standbeeld van de Stichter</p>
+                            <p class="text-sm text-gray-500">Kunstwerk</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Pop-up voor Interessante Plek (voorbeeld) - Kan dynamisch verschijnen -->
+        <div id="poi-popup" class="hidden fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50 p-4">
+            <div class="relative p-6 bg-indigo-100 border border-indigo-300 rounded-xl shadow-xl max-w-sm mx-auto animate-bounce-in">
+                <!-- Sluitknop voor de pop-up -->
+                <button onclick="hidePoiPopup()" class="absolute top-3 right-3 text-gray-500 hover:text-gray-700">
+                    <span class="icon" data-lucide="x"></span>
+                </button>
+                <div class="flex items-center mb-3">
+                    <span class="icon text-indigo-600 mr-3" data-lucide="sparkles"></span>
+                    <h3 class="text-xl font-semibold text-indigo-800">Nieuwe Ontdekking!</h3>
+                </div>
+                <p class="text-indigo-700 mb-4">Je bent in de buurt van de "Oude Stadsmuur". Tik hier voor meer informatie!</p>
+                <button class="w-full bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition duration-300">Meer Info</button>
+            </div>
+        </div>
+
+        <!-- Sectie: Beoordeling en Feedback (voor ingelogde gebruikers) -->
+        <div class="mt-12 p-6 bg-gray-50 rounded-xl shadow-md">
+            <h2 class="text-3xl font-bold text-gray-800 mb-6">Beoordeel en Geef Feedback</h2>
+            <p class="text-gray-600 mb-4">Deel je ervaring met de "Historische Stadswandeling".</p>
+
+            <!-- Beoordelingssectie -->
+            <div class="mb-6">
+                <h3 class="text-xl font-semibold text-gray-800 mb-3">Jouw Beoordeling</h3>
+                <div class="flex items-center text-yellow-500 text-3xl space-x-1 mb-4" id="rating-stars">
+                    <!-- Interactieve sterren voor beoordeling -->
+                    <span class="icon cursor-pointer hover:scale-110 transition-transform" data-lucide="star" data-value="1"></span>
+                    <span class="icon cursor-pointer hover:scale-110 transition-transform" data-lucide="star" data-value="2"></span>
+                    <span class="icon cursor-pointer hover:scale-110 transition-transform" data-lucide="star" data-value="3"></span>
+                    <span class="icon cursor-pointer hover:scale-110 transition-transform" data-lucide="star" data-value="4"></span>
+                    <span class="icon cursor-pointer hover:scale-110 transition-transform" data-lucide="star" data-value="5"></span>
+                </div>
+                <textarea placeholder="Schrijf hier je beoordeling over de route..." rows="4" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
+            </div>
+
+            <!-- Feedbacksectie -->
+            <div class="mb-6">
+                <h3 class="text-xl font-semibold text-gray-800 mb-3">Algemene Feedback</h3>
+                <textarea placeholder="Heb je opmerkingen over de app of iets anders? Deel het hier." rows="4" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
+            </div>
+
+            <button class="bg-indigo-600 text-white px-6 py-3 rounded-lg hover:bg-indigo-700 transition duration-300">Verstuur</button>
+        </div>
+
+        <!-- Sectie: Social Media Delen -->
+        <div class="mt-12 p-6 bg-gray-50 rounded-xl shadow-md">
+            <h2 class="text-3xl font-bold text-gray-800 mb-6">Deel je Ervaring!</h2>
+            <p class="text-gray-600 mb-4">Laat je vrienden weten welke geweldige route je hebt gelopen of deel je favoriete foto!</p>
+
+            <div class="flex flex-wrap gap-4 justify-center">
+                <!-- Deelknop voor Facebook -->
+                <button class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition duration-300 flex items-center">
+                    <span class="icon mr-2" data-lucide="facebook"></span> Deel op Facebook
+                </button>
+                <!-- Deelknop voor Twitter -->
+                <button class="bg-sky-500 text-white px-6 py-3 rounded-lg hover:bg-sky-600 transition duration-300 flex items-center">
+                    <span class="icon mr-2" data-lucide="twitter"></span> Deel op X
+                </button>
+                <!-- Deelknop voor Instagram (voorbeeld, directe deel API's zijn beperkt) -->
+                <button class="bg-pink-500 text-white px-6 py-3 rounded-lg hover:bg-pink-600 transition duration-300 flex items-center">
+                    <span class="icon mr-2" data-lucide="instagram"></span> Deel op Instagram
+                </button>
+                <!-- Algemene deelknop (Web Share API) -->
+                <button id="webShareButton" class="bg-gray-700 text-white px-6 py-3 rounded-lg hover:bg-gray-800 transition duration-300 flex items-center">
+                    <span class="icon mr-2" data-lucide="share2"></span> Meer deelopties
+                </button>
+            </div>
+            <p class="text-center text-gray-500 text-sm mt-6">
+                <label for="share-link" class="block mb-2">Of kopieer de link:</label>
+                <input type="text" id="share-link" value="https://jouwapp.nl/route/historische-stadswandeling" readonly class="w-full max-w-md p-3 border border-gray-300 rounded-lg bg-gray-100 text-gray-700 text-center">
+                <button onclick="copyToClipboard('share-link')" class="mt-3 bg-indigo-500 text-white px-4 py-2 rounded-lg hover:bg-indigo-600 transition duration-300">Kopieer Link</button>
+            </p>
+        </div>
+    </section>
+
+    <footer class="text-center text-gray-500 text-sm mt-8 pb-4">
+        &copy; 2025 Tourguide App. Alle rechten voorbehouden.
+    </footer>
+
+    <script>
+        // Initialiseer Lucide iconen na het laden van de pagina
+        document.addEventListener('DOMContentLoaded', function() {
+            lucide.createIcons();
+
+            // Voeg event listeners toe voor sterbeoordeling
+            const ratingStars = document.getElementById('rating-stars');
+            let currentRating = 0;
+
+            ratingStars.addEventListener('mouseover', (event) => {
+                const star = event.target.closest('.icon');
+                if (star && star.dataset.value) {
+                    const value = parseInt(star.dataset.value);
+                    highlightStars(value);
+                }
+            });
+
+            ratingStars.addEventListener('mouseout', () => {
+                highlightStars(currentRating);
+            });
+
+            ratingStars.addEventListener('click', (event) => {
+                const star = event.target.closest('.icon');
+                if (star && star.dataset.value) {
+                    currentRating = parseInt(star.dataset.value);
+                    highlightStars(currentRating);
+                    alertMessage(`Je hebt ${currentRating} sterren gegeven!`);
+                }
+            });
+
+            function highlightStars(value) {
+                Array.from(ratingStars.children).forEach((star, index) => {
+                    if (index < value) {
+                        star.style.fill = 'currentColor'; // Vul de ster
+                    } else {
+                        star.style.fill = 'none'; // Leeg de ster
+                    }
+                });
+            }
+
+            // Voorbeeld: toon de pop-up na een paar seconden (simuleert nabijheid POI)
+            setTimeout(() => {
+                showPoiPopup();
+            }, 5000); // Toon na 5 seconden
+
+            // Web Share API integratie
+            const webShareButton = document.getElementById('webShareButton');
+            if (navigator.share) {
+                webShareButton.addEventListener('click', () => {
+                    navigator.share({
+                        title: 'Historische Stadswandeling',
+                        text: 'Ik heb net de Historische Stadswandeling gelopen met de Tourguide App! Echt een aanrader!',
+                        url: document.getElementById('share-link').value,
+                    }).then(() => {
+                        console.log('Succesvol gedeeld');
+                    }).catch((error) => {
+                        console.error('Fout bij delen:', error);
+                    });
+                });
+            } else {
+                webShareButton.style.display = 'none'; // Verberg de knop als Web Share API niet beschikbaar is
+            }
+        });
+
+        // Functie om de POI pop-up te tonen
+        function showPoiPopup() {
+            const popup = document.getElementById('poi-popup');
+            if (popup) {
+                popup.classList.remove('hidden');
+            }
+        }
+
+        // Functie om de POI pop-up te verbergen
+        function hidePoiPopup() {
+            const popup = document.getElementById('poi-popup');
+            if (popup) {
+                popup.classList.add('hidden');
+            }
+        }
+
+        // Functie om tekst naar het klembord te kopiëren
+        function copyToClipboard(elementId) {
+            const copyText = document.getElementById(elementId);
+            copyText.select();
+            copyText.setSelectionRange(0, 99999); /* Voor mobiele apparaten */
+            document.execCommand("copy"); // Gebruik execCommand voor bredere compatibiliteit in iframes
+            alertMessage("Link gekopieerd naar klembord!"); // Gebruik een custom alert functie
+        }
+
+        // Custom alert functie om window.alert te vermijden
+        function alertMessage(message) {
+            const alertBox = document.createElement('div');
+            alertBox.className = 'fixed bottom-5 left-1/2 -translate-x-1/2 bg-gray-800 text-white px-6 py-3 rounded-lg shadow-lg z-50 opacity-0 transition-opacity duration-300';
+            alertBox.textContent = message;
+            document.body.appendChild(alertBox);
+
+            // Fade in
+            setTimeout(() => {
+                alertBox.style.opacity = '1';
+            }, 10);
+
+            // Fade out en verwijder na 3 seconden
+            setTimeout(() => {
+                alertBox.style.opacity = '0';
+                alertBox.addEventListener('transitionend', () => alertBox.remove());
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
