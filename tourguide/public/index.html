@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Firebase Test Project</title>
+</head>
+<body>
+  <h1>🔥 Firebase Connection Test</h1>
+  <p id="status">Connecting to Firebase... </p>
+
+  <script type="module">
+    // Firebase SDKs importeren
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+    // JOUW PROJECT CONFIG - haal deze uit de Firebase Console (Project Settings → Your apps → Web app)
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "tourguide-80d0f.firebaseapp.com",
+      projectId: "tourguide-80d0f",
+      storageBucket: "tourguide-80d0f.appspot.com",
+      messagingSenderId: "YOUR_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
+
+    // Firebase initialiseren
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // Test: Firestore lezen
+    async function testFirestore() {
+      try {
+        const snapshot = await getDocs(collection(db, "test"));
+        let output = "✅ Firebase connected. Docs in 'test':<br> ";
+
+        snapshot.forEach(doc => {
+          output += `${doc.id} => ${JSON.stringify(doc.data())}<br> hoi hoi`;
+          console.log(doc.id, "=>", doc.data());
+        });
+
+        document.getElementById("status").innerHTML = output || "No docs found in 'test' collection.";
+      } catch (err) {
+        document.getElementById("status").innerText = "❌ Error: " + err.message;
+        console.error("Firestore error:", err);
+      }
+    }
+
+    testFirestore();
+  </script>
+</body>
+
